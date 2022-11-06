@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZeroHungerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dashboards">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Collect_Item" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Quantity" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RID" Type="int" />
+        </EntityType>
+        <EntityType Name="Emoplyees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Pno" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="NgoId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="AvailableMsg" Type="nchar" MaxLength="100" />
+          <Property Name="RestrurantId" Type="int" />
+        </EntityType>
+        <EntityType Name="NGO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Pno" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Restrurants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" />
+          <Property Name="PhoneNo" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="NgoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RestrurentDashboard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DId" Type="int" Nullable="false" />
+          <Property Name="RId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Emoplyees_NGO">
+          <End Role="NGO" Type="Self.NGO" Multiplicity="1" />
+          <End Role="Emoplyees" Type="Self.Emoplyees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Emoplyees">
+              <PropertyRef Name="NgoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Restrurants_NGO">
+          <End Role="NGO" Type="Self.NGO" Multiplicity="1" />
+          <End Role="Restrurants" Type="Self.Restrurants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Restrurants">
+              <PropertyRef Name="NgoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RestrurentDashboard_Dashboards">
+          <End Role="Dashboards" Type="Self.Dashboards" Multiplicity="1" />
+          <End Role="RestrurentDashboard" Type="Self.RestrurentDashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dashboards">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RestrurentDashboard">
+              <PropertyRef Name="DId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RestrurentDashboard_Restrurants">
+          <End Role="Restrurants" Type="Self.Restrurants" Multiplicity="1" />
+          <End Role="RestrurentDashboard" Type="Self.RestrurentDashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restrurants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RestrurentDashboard">
+              <PropertyRef Name="RId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZeroHungerModelStoreContainer">
+          <EntitySet Name="Dashboards" EntityType="Self.Dashboards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emoplyees" EntityType="Self.Emoplyees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NGO" EntityType="Self.NGO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restrurants" EntityType="Self.Restrurants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestrurentDashboard" EntityType="Self.RestrurentDashboard" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Emoplyees_NGO" Association="Self.FK_Emoplyees_NGO">
+            <End Role="NGO" EntitySet="NGO" />
+            <End Role="Emoplyees" EntitySet="Emoplyees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Restrurants_NGO" Association="Self.FK_Restrurants_NGO">
+            <End Role="NGO" EntitySet="NGO" />
+            <End Role="Restrurants" EntitySet="Restrurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RestrurentDashboard_Dashboards" Association="Self.FK_RestrurentDashboard_Dashboards">
+            <End Role="Dashboards" EntitySet="Dashboards" />
+            <End Role="RestrurentDashboard" EntitySet="RestrurentDashboard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RestrurentDashboard_Restrurants" Association="Self.FK_RestrurentDashboard_Restrurants">
+            <End Role="Restrurants" EntitySet="Restrurants" />
+            <End Role="RestrurentDashboard" EntitySet="RestrurentDashboard" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZeroHungerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dashboard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Collect_Item" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RestrurentDashboards" Relationship="ZeroHungerModel.FK_RestrurentDashboard_Dashboards" FromRole="Dashboard" ToRole="RestrurentDashboard" />
+          <Property Name="RID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Emoplyee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pno" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NgoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NGO" Relationship="Self.FK_Emoplyees_NGO" FromRole="Emoplyees" ToRole="NGO" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AvailableMsg" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="RestrurantId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="NGO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pno" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Emoplyees" Relationship="Self.FK_Emoplyees_NGO" FromRole="NGO" ToRole="Emoplyees" />
+          <NavigationProperty Name="Restrurants" Relationship="Self.FK_Restrurants_NGO" FromRole="NGO" ToRole="Restrurants" />
+        </EntityType>
+        <EntityType Name="Restrurant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NgoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NGO" Relationship="Self.FK_Restrurants_NGO" FromRole="Restrurants" ToRole="NGO" />
+          <NavigationProperty Name="RestrurentDashboards" Relationship="Self.FK_RestrurentDashboard_Restrurants" FromRole="Restrurants" ToRole="RestrurentDashboard" />
+        </EntityType>
+        <EntityType Name="RestrurentDashboard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DId" Type="Int32" Nullable="false" />
+          <Property Name="RId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Restrurant" Relationship="Self.FK_RestrurentDashboard_Restrurants" FromRole="RestrurentDashboard" ToRole="Restrurants" />
+          <NavigationProperty Name="Dashboard" Relationship="ZeroHungerModel.FK_RestrurentDashboard_Dashboards" FromRole="RestrurentDashboard" ToRole="Dashboard" />
+        </EntityType>
+        <Association Name="FK_Emoplyees_NGO">
+          <End Role="NGO" Type="Self.NGO" Multiplicity="1" />
+          <End Role="Emoplyees" Type="Self.Emoplyee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Emoplyees">
+              <PropertyRef Name="NgoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Restrurants_NGO">
+          <End Role="NGO" Type="Self.NGO" Multiplicity="1" />
+          <End Role="Restrurants" Type="Self.Restrurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NGO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Restrurants">
+              <PropertyRef Name="NgoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RestrurentDashboard_Restrurants">
+          <End Role="Restrurants" Type="Self.Restrurant" Multiplicity="1" />
+          <End Role="RestrurentDashboard" Type="Self.RestrurentDashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restrurants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RestrurentDashboard">
+              <PropertyRef Name="RId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZeroHungerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dashboards" EntityType="Self.Dashboard" />
+          <EntitySet Name="Emoplyees" EntityType="Self.Emoplyee" />
+          <EntitySet Name="NGOes" EntityType="Self.NGO" />
+          <EntitySet Name="Restrurants" EntityType="Self.Restrurant" />
+          <EntitySet Name="RestrurentDashboards" EntityType="Self.RestrurentDashboard" />
+          <AssociationSet Name="FK_Emoplyees_NGO" Association="Self.FK_Emoplyees_NGO">
+            <End Role="NGO" EntitySet="NGOes" />
+            <End Role="Emoplyees" EntitySet="Emoplyees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Restrurants_NGO" Association="Self.FK_Restrurants_NGO">
+            <End Role="NGO" EntitySet="NGOes" />
+            <End Role="Restrurants" EntitySet="Restrurants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RestrurentDashboard_Restrurants" Association="Self.FK_RestrurentDashboard_Restrurants">
+            <End Role="Restrurants" EntitySet="Restrurants" />
+            <End Role="RestrurentDashboard" EntitySet="RestrurentDashboards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RestrurentDashboard_Dashboards" Association="ZeroHungerModel.FK_RestrurentDashboard_Dashboards">
+            <End Role="Dashboard" EntitySet="Dashboards" />
+            <End Role="RestrurentDashboard" EntitySet="RestrurentDashboards" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_RestrurentDashboard_Dashboards">
+          <End Type="ZeroHungerModel.Dashboard" Role="Dashboard" Multiplicity="1" />
+          <End Type="ZeroHungerModel.RestrurentDashboard" Role="RestrurentDashboard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dashboard">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RestrurentDashboard">
+              <PropertyRef Name="DId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZeroHungerModelStoreContainer" CdmEntityContainer="ZeroHungerEntities">
+          <EntitySetMapping Name="Dashboards">
+            <EntityTypeMapping TypeName="ZeroHungerModel.Dashboard">
+              <MappingFragment StoreEntitySet="Dashboards">
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Collect_Item" ColumnName="Collect_Item" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emoplyees">
+            <EntityTypeMapping TypeName="ZeroHungerModel.Emoplyee">
+              <MappingFragment StoreEntitySet="Emoplyees">
+                <ScalarProperty Name="RestrurantId" ColumnName="RestrurantId" />
+                <ScalarProperty Name="AvailableMsg" ColumnName="AvailableMsg" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Pno" ColumnName="Pno" />
+                <ScalarProperty Name="NgoId" ColumnName="NgoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NGOes">
+            <EntityTypeMapping TypeName="ZeroHungerModel.NGO">
+              <MappingFragment StoreEntitySet="NGO">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Pno" ColumnName="Pno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Restrurants">
+            <EntityTypeMapping TypeName="ZeroHungerModel.Restrurant">
+              <MappingFragment StoreEntitySet="Restrurants">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="NgoId" ColumnName="NgoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RestrurentDashboards">
+            <EntityTypeMapping TypeName="ZeroHungerModel.RestrurentDashboard">
+              <MappingFragment StoreEntitySet="RestrurentDashboard">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DId" ColumnName="DId" />
+                <ScalarProperty Name="RId" ColumnName="RId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
